@@ -1,0 +1,7 @@
+{
+  "name": "zverecnyProjekt",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
