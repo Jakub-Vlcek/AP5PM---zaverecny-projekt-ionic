@@ -1,11 +1,33 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab DVA
-    </ion-title>
+    <ion-title> Historie hledání </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  TAB TWO
+  <!-- <ion-button (click)="saveHistory()" expand="block"
+        >historie</ion-button
+      > -->
+
+  <ion-list>
+    <div *ngFor="let state of historyStorage, let indexNumber=index">
+      <ion-item button (click)="initModal(indexNumber)" id="{{indexNumber}}">
+        <div *ngFor="let stateFlag of state.flags | keyvalue">
+          <ion-avatar *ngIf="stateFlag.key === 'svg'" slot="start">
+            <img class="flagThumbnail" src="{{stateFlag.value}}" />
+          </ion-avatar>
+        </div>
+
+        <div>
+          <ion-label
+            style="white-space: pre-wrap"
+            *ngFor="let stateName of state.name | keyvalue"
+          >
+            <h2 *ngIf="stateName.key === 'common'">{{stateName.value}}</h2>
+            <p *ngIf="stateName.key === 'official'">{{stateName.value}}</p>
+          </ion-label>
+        </div>
+      </ion-item>
+    </div>
+  </ion-list>
 </ion-content>

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,20 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor() {
+  }
+
+  @HostListener('document:readystatechange', ['$event'])
+  onReadyStateChanged(event) {
+      if (event.target.readyState === 'complete') {
+          SplashScreen.hide();
+      }
+  }
+
+
 }
+
+
+
+
+

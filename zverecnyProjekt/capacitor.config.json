@@ -1,6 +1,24 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "zverecnyProjekt",
-	"webDir": "www",
-	"bundledWebRuntime": false
+  "appId": "io.ionic.starter",
+  "appName": "Svetove zeme",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 5000,
+      "backgroundColor": "#ffffffff",
+      "androidSplashResourceName": "splash",
+      "launchAutoHide": true,
+      "androidScaleType": "FIT_CENTER",
+      "showSpinner": true,
+      "androidSpinnerStyle": "small",
+      "iosSpinnerStyle": "small",
+      "spinnerColor": "#999999",
+      "splashFullScreen": false,
+      "splashImmersive": false,
+      "layoutName": "launch_screen",
+      "useDialog": true
+    }
+  }
 }
+

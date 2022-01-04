@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
-import { CountriesService } from '../api/countries.service';
+import { CountriesService } from '../services/countries.service';
+import { ModalController } from '@ionic/angular';
+import { ModalStateDetailPage } from '../modal-state-detail/modal-state-detail.page';
+import { IonLoaderService } from '../ionLoader/ion-loader.service';
+import { AlertController } from '@ionic/angular';
+import { Tab2Page } from '../tab2/tab2.page';
+import { SplashScreen } from '@capacitor/splash-screen';
+
+
 
 @Component({
   selector: 'app-tab1',
@@ -9,61 +17,98 @@ import { CountriesService } from '../api/countries.service';
 
 export class Tab1Page {
   inputNameOfState: string;
-  stateNativeName: string;
-  stateNativeNameObj: string;
-  stateName: string;
-  stateFlag: string;
-  stateCode: string;
-  stateBorders: string;
-  stateCapital: string;
-  stateArea: string;
-  stateCurrency: Array<string> = [];
-  statePopulation: string;
-  stateLanguages: string;
-  stateDomain: string;
-  stateRegion: string;
-  stateSubregion: string;
-  stateTimezones: string;
-  hideContent: boolean;
+  dataResponse: any;
 
-  constructor(private countriesService: CountriesService) {
 
+  constructor(
+    private countriesService: CountriesService,
+    public modalCtrl: ModalController,
+    private ionLoaderService: IonLoaderService,
+    public alertController: AlertController,
+    public tab2Page: Tab2Page
+  ) {
+    this.inputNameOfState = null;
   }
 
+
   public btnVyhledatClicked(): void {
-    this.countriesService.getCountry(this.inputNameOfState).subscribe((data) => {
-      console.log(data);
+    if (this.inputNameOfState.length > 1) {
+      this.showLoader();
 
-      // vymazani pole s menou
-      this.stateCurrency = [];
+      this.countriesService.getCountry(this.inputNameOfState).subscribe((data) => {
+        //console.log(data);
 
-      // nalezeni native name v jsonu podle pozice, ne pomoci cesty
-      this.stateNativeNameObj = data[0].name.nativeName[Object.keys(data[0].name.nativeName)[0]];
-      this.stateNativeName = this.stateNativeNameObj[Object.keys(this.stateNativeNameObj)[1]];
-      this.stateName = data[0].name.official;
-      this.stateFlag = data[0].flags.png;
-      this.stateCode = data[0].cca2 + ', ' + data[0].cca3;
-      this.stateBorders = data[0].borders;
-      this.stateCapital = data[0].capital[0];
-      this.stateArea = data[0].area;
+        this.dataResponse = data;
+        console.log('btn vyhledat response: ');
+        console.log(this.dataResponse);
+        this.hideLoader();
+      },
+        (error) => {
+          console.log('Catch error ');
+          this.hideLoader();
+          this.showAlertNotFound();
+        }
+      );
+    }
+    else {
+      console.log('input musi byt vetsi nez 1');
+      this.showAlertInputWarning();
+    }
 
-      //vypis vsech men
-      const keys = Object.keys(data[0].currencies);
-      keys.forEach(element => {
-        this.stateCurrency.push(data[0].currencies[element].name);
-      });
+  };
 
-      this.statePopulation = data[0].population;
-      this.stateLanguages = data[0].languages;
-      this.stateDomain = data[0].tld[0];
-      this.stateRegion = data[0].region;
-      this.stateSubregion = data[0].subregion;
-      this.stateTimezones = data[0].timezones;
+  showAlertInputWarning() {
+    this.alertController.create({
+      header: 'Upozornění',
+      subHeader: 'Nezadali jste validní název státu',
+      message: 'Název státu musí obsahovat alespoň dvě písmena',
+      buttons: ['OK']
+    }).then(res => {
+      res.present();
     });
   }
 
-  hide() {
-    this.hideContent = true;
+  showAlertNotFound() {
+    this.alertController.create({
+      subHeader: 'Nepodařilo se nic najít',
+      message: 'Vašemu požadavku neodpovídají žádné výsledky. Zkuste zadat jinou hodnotu.',
+      buttons: ['OK']
+    }).then(res => {
+      res.present();
+    });
   }
 
+  showLoader() {
+    this.ionLoaderService.simpleLoader();
+  }
+
+  hideLoader() {
+    this.ionLoaderService.dismissLoader();
+  }
+
+  async initModal(indexNumber: any) {
+    const modal = await this.modalCtrl.create({
+      component: ModalStateDetailPage,
+      componentProps: {
+        dataResponse: this.dataResponse,
+        indexNumber
+      }
+    });
+
+
+    modal.onDidDismiss().then((dataResponse) => {
+      if (dataResponse !== null) {
+        //   this.modalDataResponse = dataResponse;
+        console.log('Modal Sent Data : ' + this.dataResponse[indexNumber]);
+
+        // vlozeni do pole s historii
+        this.countriesService.addToHistoryArray(this.dataResponse[indexNumber]);
+        //this.tab2Page.historyStorage.push(this.dataResponse[indexNumber]);
+        this.tab2Page.saveHistory();
+
+      }
+    });
+
+    return await modal.present();
+  }
 }

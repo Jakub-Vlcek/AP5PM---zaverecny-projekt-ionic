@@ -5,128 +5,44 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div id="container">
+    <!-- <ion-button (click)="initModal()">Podrobnosti</ion-button> -->
+  </div>
+
   <ion-card class="welcome-card">
     <ion-card-content>
       <ion-input
         [(ngModel)]="inputNameOfState"
         placeholder="Zadejte zemi"
+        type="text"
       ></ion-input>
-      <ion-button (click)="btnVyhledatClicked()" (click)="hide()" expand="block"
+      <ion-button (click)="btnVyhledatClicked()" expand="block"
         >Vyhledat</ion-button
       >
+      <!-- (click)="displayAutoLoader()" -->
     </ion-card-content>
   </ion-card>
 
-  <div *ngIf="hideContent">
+  <ion-list>
+    <div *ngFor="let state of dataResponse, let indexNumber=index">
+      <ion-item button (click)="initModal(indexNumber)" id="{{indexNumber}}">
+        <div *ngFor="let stateFlag of state.flags | keyvalue">
+          <ion-avatar *ngIf="stateFlag.key === 'svg'" slot="start">
+            <!-- {{stateFlag.key}}{{stateFlag.value}} -->
+            <img class="flagThumbnail" src="{{stateFlag.value}}" />
+          </ion-avatar>
+        </div>
 
-    <ion-card>
-      <ion-card-header>
-      <img src="{{stateFlag}}" id="img-flag" />
-
-
-        <ion-card-subtitle>
-          <h3>{{stateNativeName}}</h3>
-        </ion-card-subtitle>
-        <ion-card-title>
-          <h1>{{stateName}}</h1>
-        </ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content>
-        <ion-item>
-          <ion-label>
-            <h2>Sousední státy</h2>
-            <ul>
-              <li *ngFor="let border of stateBorders">{{border}}</li>
-            </ul>
+        <div>
+          <ion-label
+            style="white-space: pre-wrap"
+            *ngFor="let stateName of state.name | keyvalue"
+          >
+            <h2 *ngIf="stateName.key === 'common'">{{stateName.value}}</h2>
+            <p *ngIf="stateName.key === 'official'">{{stateName.value}}</p>
           </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            <h2>Hlavní město</h2>
-            <ul>
-              <li>{{stateCapital}}</li>
-            </ul>
-          </ion-label>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            <h2>Rozloha</h2>
-            <ul>
-              <li>{{stateArea}}</li>
-            </ul>
-          </ion-label>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            <h2>Měna</h2>
-            <ul>
-              <li *ngFor="let curr of stateCurrency">{{ curr }}</li>
-            </ul>
-          </ion-label>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            <h2>Počet obyvatel</h2>
-            <ul>
-              <li>{{statePopulation}}</li>
-            </ul>
-          </ion-label>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            <h2>Jazyk</h2>
-            <ul>
-              <li *ngFor="let lang of stateLanguages | keyvalue">
-                {{ lang.value }}
-              </li>
-            </ul>
-          </ion-label>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            <h2>Doména</h2>
-            <ul>
-              <li>{{stateDomain}}</li>
-            </ul>
-          </ion-label>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            <h2>Kontinent</h2>
-            <ul>
-              <li>{{stateRegion}}</li>
-            </ul>
-          </ion-label>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            <h2>Region</h2>
-            <ul>
-              <li>{{stateSubregion}}</li>
-            </ul>
-          </ion-label>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            <h2>Časová pásma</h2>
-            <ul>
-              <li *ngFor="let zone of stateTimezones">{{zone}}</li>
-            </ul>
-          </ion-label>
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
-  </div>
-
+        </div>
+      </ion-item>
+    </div>
+  </ion-list>
 </ion-content>
-
-

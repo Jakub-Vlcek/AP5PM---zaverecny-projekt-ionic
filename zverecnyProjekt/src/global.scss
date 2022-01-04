@@ -24,3 +24,24 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+#img-flag{
+  width: 50%;
+  display: block;
+  margin: auto;
+}
+
+.flagThumbnail{
+width: 73%;
+height: 73%;
+margin-top:8%;
+//box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+margin: 8px;
+
+}
+
+.flagThumbnailWrapper{
+  width: 100px;
+height: 100px;
+}
