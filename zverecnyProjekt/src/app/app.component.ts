@@ -12,9 +12,9 @@ export class AppComponent {
 
   @HostListener('document:readystatechange', ['$event'])
   onReadyStateChanged(event) {
-      if (event.target.readyState === 'complete') {
-          SplashScreen.hide();
-      }
+    if (event.target.readyState === 'complete') {
+      SplashScreen.hide();
+    }
   }
 
 

@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -25,23 +25,60 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-#img-flag{
+#img-flag {
   width: 50%;
   display: block;
   margin: auto;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
 }
 
-.flagThumbnail{
-width: 73%;
-height: 73%;
-margin-top:8%;
-//box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
-margin: 8px;
-
+.flagThumbnail {
+  width: 73%;
+  height: 73%;
+  margin-top: 8%;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+  margin: 8px;
 }
 
-.flagThumbnailWrapper{
+.flagThumbnailWrapper {
   width: 100px;
-height: 100px;
+  height: 100px;
+}
+
+.flagOnCard {
+  padding-top: 15%;
+  width: 80%;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+}
+
+.flagColumn {
+  text-align: end;
+  display: block;
+}
+
+.divCloseBtn {
+  text-align: end;
+  margin: 0;
+}
+
+.closeBtn {
+  margin-bottom: 0;
+}
+
+.favouritesBtn{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.cardHeader {
+  padding-top: 0;
+}
+
+.cardItem{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.cardContent{
+   padding: 0;
 }

@@ -5,22 +5,27 @@ import { LoadingController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class IonLoaderService {
+  loader: any;
 
   constructor(
     public loadingController: LoadingController
   ) { }
 
-  // Simple loader
+  /*
+   * metoda pro zobrazeni dialogu o nacitani
+   */
   simpleLoader() {
-    this.loadingController.create({
+    this.loader = this.loadingController.create({
       message: 'Načítám data...',
-      duration: 5000
+      duration: 3000
     }).then((response) => {
       response.present();
     });
   }
 
-  // Dismiss loader
+  /*
+   * metoda pro zavreni dialogu o nacitani
+   */
   dismissLoader() {
     this.loadingController.dismiss().then((response) => {
       console.log('Loader closed!', response);
@@ -28,5 +33,4 @@ export class IonLoaderService {
       console.log('Error occured : ', err);
     });
   }
-
 }

@@ -1,21 +1,28 @@
 <ion-header>
-
- <ion-toolbar>
+  <ion-toolbar>
     <ion-buttons slot="start">
-        <ion-button color="dark" (click)="close()">
-            <ion-icon name="arrow-back"></ion-icon>
-        </ion-button>
+      <ion-button color="dark" (click)="close()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>zpět na přehled</ion-title>
-</ion-toolbar>
-
+    <ion-button
+      (click)="btnOblibeneClicked()"
+      *ngIf="disableOblibeneBtn()"
+      slot="end"
+      fill="clear"
+      size="large"
+      class="favouritesBtn"
+      ><ion-icon name="star" color="warning"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-content>
     <ion-card>
       <ion-card-header>
-      <img src="{{stateFlag}}" id="img-flag" />
-
+        <img src="{{stateFlag}}" id="img-flag" />
 
         <ion-card-subtitle>
           <h3>{{stateNativeName}}</h3>
@@ -47,7 +54,7 @@
           <ion-label>
             <h2>Rozloha</h2>
             <ul>
-              <li>{{stateArea}}</li>
+              <li>{{stateArea | number}} km<sup>2</sup></li>
             </ul>
           </ion-label>
         </ion-item>
@@ -65,7 +72,7 @@
           <ion-label>
             <h2>Počet obyvatel</h2>
             <ul>
-              <li>{{statePopulation}}</li>
+              <li>{{statePopulation | number}}</li>
             </ul>
           </ion-label>
         </ion-item>
@@ -118,7 +125,5 @@
         </ion-item>
       </ion-card-content>
     </ion-card>
-
-
-
+  </ion-content>
 </ion-content>

@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Tab1Page } from '../tab1/tab1.page';
+import { FavouritesService } from '../services/favourites/favourites-service.service';
 
 @Component({
   selector: 'app-modal-state-detail',
@@ -25,24 +25,22 @@ export class ModalStateDetailPage implements OnInit {
   stateSubregion: string;
   stateTimezones: string;
   hideContent: boolean;
-
   modalDataResponse: any;
   dataResponse: any;
-
   indexNumber: number;
 
   constructor(
     private modalCtr: ModalController,
+    public favouritesService: FavouritesService
   ) { }
 
+  /*
+   * innicializace modalniho okna daty
+   */
   ngOnInit() {
-    /*console.log('index:');
-    console.log(this.indexNumber);*/
 
     // vymazani pole s menou
     this.stateCurrency = [];
-    /*console.log('data response');
-    console.log(this.dataResponse);*/
 
     // nalezeni native name v jsonu podle pozice, ne pomoci cesty
     this.stateNativeNameObj = this.dataResponse[this.indexNumber].name.nativeName
@@ -72,6 +70,27 @@ export class ModalStateDetailPage implements OnInit {
   async close() {
     const closeModal = 'Modal Closed';
     await this.modalCtr.dismiss(closeModal);
+  }
+
+  /*
+   * metoda pro pridani do oblibenych
+   * pridani do pole s oblibenymi a ulozeni do pameti
+   */
+  btnOblibeneClicked() {
+    this.favouritesService.addToFavouritesArray(this.dataResponse[this.indexNumber]);
+    this.favouritesService.saveFavourites();
+  }
+
+  /*
+   * metoda pro skryti tlacitka na pridani do oblibenych (hvezdicka)
+   * v pripade, ze jiz je polozka mezi oblibenymi je sjryto tlacitko pro pridani
+   * => kazda polozka muze byt v oblibenzch pouze 1×
+   */
+  disableOblibeneBtn() {
+    if (this.favouritesService.isInFavouritesArray(this.dataResponse[this.indexNumber])) {
+      return false;
+    }
+    return true;
   }
 
 }

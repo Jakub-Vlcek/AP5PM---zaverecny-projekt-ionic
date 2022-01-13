@@ -5,9 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div id="container">
-    <!-- <ion-button (click)="initModal()">Podrobnosti</ion-button> -->
-  </div>
+  <div id="container"></div>
 
   <ion-card class="welcome-card">
     <ion-card-content>
@@ -17,9 +15,8 @@
         type="text"
       ></ion-input>
       <ion-button (click)="btnVyhledatClicked()" expand="block"
-        >Vyhledat</ion-button
-      >
-      <!-- (click)="displayAutoLoader()" -->
+        >Vyhledat <ion-icon slot="end" name="search-sharp"></ion-icon
+      ></ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -28,7 +25,6 @@
       <ion-item button (click)="initModal(indexNumber)" id="{{indexNumber}}">
         <div *ngFor="let stateFlag of state.flags | keyvalue">
           <ion-avatar *ngIf="stateFlag.key === 'svg'" slot="start">
-            <!-- {{stateFlag.key}}{{stateFlag.value}} -->
             <img class="flagThumbnail" src="{{stateFlag.value}}" />
           </ion-avatar>
         </div>
